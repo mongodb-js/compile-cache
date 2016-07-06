@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 var fs = require('fs-plus');
 var path = require('path');
 var chai = require('chai');
@@ -8,7 +9,10 @@ describe('MarkdownCompiler', function() {
   describe('#getCachePath', function() {
     var compiler = new MarkdownCompiler();
     var file = path.join(__dirname, 'test.md');
-    var expected = 'md/2389f394ffc8e460bec079423e28134aed9e8943.js';
+    var expected = path.join(
+      'md',
+      crypto.createHash('sha1').update(file, 'utf8').digest('hex') + '.js'
+    );
 
     it('returns the digested cache path', function() {
       expect(compiler.getCachePath(file)).to.equal(expected);
