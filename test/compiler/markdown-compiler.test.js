@@ -8,7 +8,7 @@ describe('MarkdownCompiler', function() {
   describe('#getCachePath', function() {
     var compiler = new MarkdownCompiler();
     var file = path.join(__dirname, 'test.md');
-    var expected = 'md/2389f394ffc8e460bec079423e28134aed9e8943.html';
+    var expected = 'md/2389f394ffc8e460bec079423e28134aed9e8943.js';
 
     it('returns the digested cache path', function() {
       expect(compiler.getCachePath(file)).to.equal(expected);
@@ -19,7 +19,7 @@ describe('MarkdownCompiler', function() {
     var compiler = new MarkdownCompiler();
     var filePath = path.join(__dirname, 'test.md');
     var source = fs.readFileSync(filePath, 'utf8');
-    var compiled = compiler.compile(source, filePath);
+    var compiled = compiler.compile(source, filePath).content;
 
     it('creates the header', function() {
       expect(compiled).to.include('<h3 id="test-title">Test Title</h3>');
