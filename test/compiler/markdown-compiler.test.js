@@ -23,14 +23,22 @@ describe('MarkdownCompiler', function() {
     var compiler = new MarkdownCompiler();
     var filePath = path.join(__dirname, 'test.md');
     var source = fs.readFileSync(filePath, 'utf8');
-    var compiled = compiler.compile(source, filePath).content;
+    var compiled = compiler.compile(source, filePath);
+
+    it('creates the template function', function() {
+      expect(compiled).to.include('module.exports = {');
+    });
 
     it('creates the header', function() {
-      expect(compiled).to.include('<h3 id="test-title">Test Title</h3>');
+      expect(compiled).to.include('<h3 id=\\"test-title\\">Test Title</h3>');
     });
 
     it('creates the text node', function() {
       expect(compiled).to.include('<p>Test text.</p>');
+    });
+
+    it('closes the object', function() {
+      expect(compiled).to.include('};');
     });
   });
 });
